@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  postgraphile:
+    image: graphile/postgraphile:latest
+    profiles:
+      - multi-tenant
+    ports:
+      - "5000:5000"
+    command: ["-c", "${DATABASE_URL}", "--watch", "--enhance-graphiql", "--subscriptions", "--dynamic-json", "--retry-on-init-fail"]
+    environment:
+      DATABASE_URL: ${PG_DSN:-postgres://postgres:postgres@0.0.0.0:5432/postgres?sslmode=disable}
